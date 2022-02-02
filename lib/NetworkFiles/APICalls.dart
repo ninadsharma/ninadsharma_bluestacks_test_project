@@ -5,7 +5,7 @@ import 'package:ninadsharma_bluestacks_test_project/NetworkFiles/RecommendedData
 
 class Call {
   Dio dio = Dio();
-  late Response response;
+  Response? response;
 
   Future<RecommendedGames> getRecommendedGames() async {
     try {
@@ -14,7 +14,7 @@ class Call {
     } catch (e) {
       log("ERORR API CALL");
     }
-    return RecommendedGames.fromJson(response.data);
+    return RecommendedGames.fromJson(response!.data);
   }
 
   Future<RecommendedGames> loadMoreRec({cursor}) async {
@@ -24,6 +24,6 @@ class Call {
     } catch (e) {
       log("ERORR API CALL");
     }
-    return RecommendedGames.fromJson(response.data);
+    return RecommendedGames.fromJson(response!.data);
   }
 }
