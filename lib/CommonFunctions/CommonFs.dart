@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
 
 class CommonFunctions {
@@ -19,13 +20,6 @@ class CommonFunctions {
       MaterialPageRoute(builder: (context) => destination),
     );
   }
-
-  textValidate(text) {
-    if (text.length < 3 || text.isEmpty || text.length > 11) {
-      return "Password should contain more than 5 characters";
-    }
-    return null;
-  }
 }
 
 class CommonComponents {
@@ -33,18 +27,53 @@ class CommonComponents {
     hint,
     onChange,
     required bool isPassword,
-    validator,
+    required bool error,
+    required TextEditingController controller,
   }) {
     return Container(
-      height: 2.h,
-      width: 9.w,
+      padding: const EdgeInsets.only(left: 12, right: 12),
+      margin: const EdgeInsets.only(bottom: 8),
+      width: 100.w,
       child: TextFormField(
-        validator: validator,
+        controller: controller,
         decoration: InputDecoration(
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+          ),
           hintText: hint,
+          errorText:
+              error ? "Invalid ${isPassword ? 'password' : 'username'}" : null,
+          counterText: "",
         ),
+        maxLength: 11,
+        maxLengthEnforcement: MaxLengthEnforcement.enforced,
         onChanged: onChange,
         obscureText: isPassword,
+      ),
+    );
+  }
+
+  Widget button({
+    text,
+    onChange,
+    required bool isActive,
+  }) {
+    return Container(
+      margin: const EdgeInsets.all(12),
+      color: isActive ? Colors.cyanAccent : Colors.grey.withOpacity(0.2),
+      height: 6.h,
+      width: 100.w,
+      alignment: Alignment.center,
+      child: InkWell(
+        onTap: onChange,
+        child: Text(
+          "$text",
+          style: TextStyle(
+            fontSize: 20,
+            color: isActive ? Colors.white : Colors.black,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
       ),
     );
   }

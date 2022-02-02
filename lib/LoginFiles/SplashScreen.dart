@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:ninadsharma_bluestacks_test_project/CommonFunctions/CommonFs.dart';
+import 'package:ninadsharma_bluestacks_test_project/HomeFiles/HomeScreen.dart';
 import 'package:ninadsharma_bluestacks_test_project/LoginFiles/LoginScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -15,8 +17,18 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   initState() {
     super.initState();
-    t = Timer(const Duration(seconds: 5), () {
-      cfs.pushNavigateTo(context: context, destination: LoginScreen());
+    checkLogin();
+  }
+
+  void checkLogin() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
+    t = Timer(const Duration(seconds: 2), () {
+      if (pref.getBool("loggedIn") == true) {
+        cfs.pushNavigateTo(context: context, destination: HomeScreen());
+      } else {
+        cfs.pushNavigateTo(context: context, destination: LoginScreen());
+      }
     });
   }
 
